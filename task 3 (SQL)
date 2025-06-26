@@ -1,0 +1,399 @@
+-- Insert data into Customers table
+INSERT INTO Customers (customer_id, first_name, last_name, email, address, phone_number) VALUES
+(1, 'Alice', 'Smith', 'alice.smith@example.com', '123 Main St, Anytown', '555-1234'),
+(2, 'Bob', 'Johnson', 'bob.j@example.com', '456 Oak Ave, Smallville', '555-5678'),
+(3, 'Charlie', 'Brown', 'charlie.b@example.com', '789 Pine Ln, Big City', '555-9012'),
+(4, 'Diana', 'Miller', 'diana.m@example.com', '101 Elm St, Anytown', '555-3456'),
+(5, 'Eve', 'Davis', 'eve.d@example.com', '202 Birch Rd, Smallville', '555-7890'),
+(6, 'Frank', 'Garcia', 'frank.g@example.com', '303 Cedar Blvd, Big City', '555-1122');
+
+-- Insert data into Products table
+INSERT INTO Products (product_id, product_name, description, price, stock_quantity) VALUES
+(101, 'Laptop Pro', 'High performance laptop for professionals', 1200.00, 50),
+(102, 'Wireless Mouse', 'Ergonomic wireless mouse', 25.00, 200),
+(103, 'Mechanical Keyboard', 'RGB backlit mechanical keyboard', 80.00, 100),
+(104, 'USB-C Hub', 'Multi-port USB-C adapter', 35.50, 150),
+(105, 'External SSD 1TB', 'Portable solid state drive', 150.00, 75),
+(106, 'Monitor 27-inch', 'Full HD monitor with thin bezels', 250.00, 40),
+(107, 'Bluetooth Speaker', 'Compact speaker with rich bass', 60.00, 90);
+
+-- Insert data into Orders table
+INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
+(1001, 1, '2023-01-15', 1225.00), -- Alice bought Laptop + Mouse
+(1002, 2, '2023-01-20', 80.00),  -- Bob bought Keyboard
+(1003, 1, '2023-02-10', 35.50),  -- Alice bought USB-C Hub
+(1004, 3, '2023-03-01', 150.00), -- Charlie bought External SSD
+(1005, 4, '2023-03-05', 250.00), -- Diana bought Monitor
+(1006, 2, '2023-04-10', 50.00),  -- Bob bought 2x Mouse
+(1007, 5, '2023-04-12', 60.00),  -- Eve bought Bluetooth Speaker
+(1008, 6, '2023-05-01', 1280.00); -- Frank bought Laptop + Keyboard
+
+-- Insert data into Order_Items table
+INSERT INTO Order_Items (order_item_id, order_id, product_id, quantity, unit_price) VALUES
+(1, 1001, 101, 1, 1200.00),
+(2, 1001, 102, 1, 25.00),
+(3, 1002, 103, 1, 80.00),
+(4, 1003, 104, 1, 35.50),
+(5, 1004, 105, 1, 150.00),
+(6, 1005, 106, 1, 250.00),
+(7, 1006, 102, 2, 25.00), -- Bob bought 2 mice
+(8, 1007, 107, 1, 60.00),
+(9, 1008, 101, 1, 1200.00),
+(10, 1008, 103, 1, 80.00);
+
+
+-- Task 3: Writing Basic SELECT Queries with Your Tables
+
+-- Objective: Extract data from one or more tables.
+
+-- Deliverables: SQL script with SELECT, WHERE, ORDER BY, LIMIT
+
+--------------------------------------------------------------------------------
+-- Queries on the 'Customers' Table
+--------------------------------------------------------------------------------
+
+-- 1.1. Select all columns from the 'Customers' table.
+SELECT *
+FROM Customers;
+
+-- 1.2. Select specific columns from 'Customers': first name, last name, and email.
+SELECT
+    first_name,
+    last_name,
+    email
+FROM
+    Customers;
+
+-- 2.1. Use WHERE to filter customers with a specific last name (e.g., 'Smith').
+SELECT
+    customer_id,
+    first_name,
+    last_name
+FROM
+    Customers
+WHERE
+    last_name = 'Smith';
+
+-- 2.2. Use AND to combine conditions: Customers named 'Bob' from 'Smallville'.
+SELECT
+    customer_id,
+    first_name,
+    last_name,
+    address
+FROM
+    Customers
+WHERE
+    first_name = 'Bob' AND address LIKE '%Smallville%';
+
+-- 2.3. Use OR to combine conditions: Customers from 'Anytown' OR 'Big City'.
+SELECT
+    customer_id,
+    first_name,
+    last_name,
+    address
+FROM
+    Customers
+WHERE
+    address LIKE '%Anytown%' OR address LIKE '%Big City%';
+
+-- 2.4. Use LIKE for pattern matching: Customers whose first name starts with 'A'.
+SELECT
+    customer_id,
+    first_name,
+    last_name
+FROM
+    Customers
+WHERE
+    first_name LIKE 'A%';
+
+-- 2.5. Use LIKE for pattern matching: Customers whose email contains 'example.com'.
+SELECT
+    customer_id,
+    first_name,
+    last_name,
+    email
+FROM
+    Customers
+WHERE
+    email LIKE '%example.com%';
+
+-- 3.1. Order customers by 'last_name' in ascending order.
+SELECT
+    customer_id,
+    first_name,
+    last_name
+FROM
+    Customers
+ORDER BY
+    last_name ASC;
+
+-- 3.2. Order customers by 'phone_number' in descending order.
+SELECT
+    customer_id,
+    first_name,
+    phone_number
+FROM
+    Customers
+ORDER BY
+    phone_number DESC;
+
+-- 4.1. Limit the number of customers returned to 3.
+SELECT
+    customer_id,
+    first_name,
+    last_name
+FROM
+    Customers
+LIMIT 3;
+
+--------------------------------------------------------------------------------
+-- Queries on the 'Products' Table
+--------------------------------------------------------------------------------
+
+-- 1.1. Select all columns from the 'Products' table.
+SELECT *
+FROM Products;
+
+-- 1.2. Select specific columns from 'Products': product name, price, and stock quantity.
+SELECT
+    product_name,
+    price,
+    stock_quantity
+FROM
+    Products;
+
+-- 2.1. Use WHERE to filter products with a price greater than $100.00.
+SELECT
+    product_id,
+    product_name,
+    price
+FROM
+    Products
+WHERE
+    price > 100.00;
+
+-- 2.2. Use AND to combine conditions: Products with stock less than 100 AND price greater than $50.00.
+SELECT
+    product_id,
+    product_name,
+    price,
+    stock_quantity
+FROM
+    Products
+WHERE
+    stock_quantity < 100 AND price > 50.00;
+
+-- 2.3. Use OR to combine conditions: Products that are 'Laptop' OR 'Monitor'.
+SELECT
+    product_id,
+    product_name,
+    description
+FROM
+    Products
+WHERE
+    product_name = 'Laptop Pro' OR product_name = 'Monitor 27-inch';
+
+-- 2.4. Use LIKE for pattern matching: Products whose description contains 'performance'.
+SELECT
+    product_id,
+    product_name,
+    description
+FROM
+    Products
+WHERE
+    description LIKE '%performance%';
+
+-- 2.5. Use BETWEEN to select products with a price between $20.00 and $70.00 (inclusive).
+SELECT
+    product_id,
+    product_name,
+    price
+FROM
+    Products
+WHERE
+    price BETWEEN 20.00 AND 70.00;
+
+-- 3.1. Order products by 'price' in descending order.
+SELECT
+    product_id,
+    product_name,
+    price
+FROM
+    Products
+ORDER BY
+    price DESC;
+
+-- 3.2. Order products by 'stock_quantity' ascending, then by 'product_name' ascending.
+SELECT
+    product_id,
+    product_name,
+    stock_quantity
+FROM
+    Products
+ORDER BY
+    stock_quantity ASC, product_name ASC;
+
+-- 4.1. Limit the number of products returned to 5.
+SELECT
+    product_id,
+    product_name
+FROM
+    Products
+LIMIT 5;
+
+--------------------------------------------------------------------------------
+-- Queries on the 'Orders' Table
+--------------------------------------------------------------------------------
+
+-- 1.1. Select all columns from the 'Orders' table.
+SELECT *
+FROM Orders;
+
+-- 1.2. Select specific columns from 'Orders': order ID, customer ID, and total amount.
+SELECT
+    order_id,
+    customer_id,
+    total_amount
+FROM
+    Orders;
+
+-- 2.1. Use WHERE to filter orders with a total amount greater than $100.00.
+SELECT
+    order_id,
+    total_amount
+FROM
+    Orders
+WHERE
+    total_amount > 100.00;
+
+-- 2.2. Use BETWEEN to select orders placed between '2023-02-01' and '2023-03-31'.
+SELECT
+    order_id,
+    order_date,
+    total_amount
+FROM
+    Orders
+WHERE
+    order_date BETWEEN '2023-02-01' AND '2023-03-31';
+
+-- 3.1. Order orders by 'order_date' in descending order.
+SELECT
+    order_id,
+    order_date,
+    total_amount
+FROM
+    Orders
+ORDER BY
+    order_date DESC;
+
+-- 4.1. Limit the number of orders returned to 4.
+SELECT
+    order_id,
+    order_date
+FROM
+    Orders
+LIMIT 4;
+
+--------------------------------------------------------------------------------
+-- Queries on the 'Order_Items' Table
+--------------------------------------------------------------------------------
+
+-- 1.1. Select all columns from the 'Order_Items' table.
+SELECT *
+FROM Order_Items;
+
+-- 1.2. Select specific columns: order item ID, product ID, and quantity.
+SELECT
+    order_item_id,
+    product_id,
+    quantity
+FROM
+    Order_Items;
+
+-- 2.1. Use WHERE to filter order items where quantity is greater than 1.
+SELECT
+    order_item_id,
+    order_id,
+    quantity
+FROM
+    Order_Items
+WHERE
+    quantity > 1;
+
+-- 2.2. Use AND to combine conditions: Quantity is 1 AND unit price is less than $50.00.
+SELECT
+    order_item_id,
+    product_id,
+    quantity,
+    unit_price
+FROM
+    Order_Items
+WHERE
+    quantity = 1 AND unit_price < 50.00;
+
+-- 3.1. Order order items by 'quantity' in descending order.
+SELECT
+    order_item_id,
+    product_id,
+    quantity
+FROM
+    Order_Items
+ORDER BY
+    quantity DESC;
+
+-- 4.1. Limit the number of order items returned to 5.
+SELECT
+    order_item_id,
+    order_id,
+    product_id
+FROM
+    Order_Items
+LIMIT 5;
+
+--------------------------------------------------------------------------------
+-- Queries Involving Multiple Tables (JOINs)
+--------------------------------------------------------------------------------
+
+-- Objective: Extract data by combining information from multiple tables.
+
+-- Example 1: Get all orders along with the customer's first and last name.
+-- This uses an INNER JOIN to combine rows from Customers and Orders where their customer_id matches.
+SELECT
+    O.order_id,
+    C.first_name,
+    C.last_name,
+    O.order_date,
+    O.total_amount
+FROM
+    Orders AS O -- Alias Orders as O for brevity
+INNER JOIN
+    Customers AS C ON O.customer_id = C.customer_id; -- Alias Customers as C
+
+-- Example 2: List all products bought in a specific order (e.g., order_id 1001).
+-- This joins Orders, Order_Items, and Products to get detailed product information for an order.
+SELECT
+    OI.order_id,
+    P.product_name,
+    OI.quantity,
+    OI.unit_price
+FROM
+    Order_Items AS OI
+INNER JOIN
+    Products AS P ON OI.product_id = P.product_id
+WHERE
+    OI.order_id = 1001;
+
+-- Example 3: Find out which customers ordered a 'Laptop Pro'.
+SELECT
+    DISTINCT C.first_name,
+    C.last_name
+FROM
+    Customers AS C
+INNER JOIN
+    Orders AS O ON C.customer_id = O.customer_id
+INNER JOIN
+    Order_Items AS OI ON O.order_id = OI.order_id
+INNER JOIN
+    Products AS P ON OI.product_id = P.product_id
+WHERE
+    P.product_name = 'Laptop Pro';
